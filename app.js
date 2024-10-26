@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
+const Listing = require('./models/listings.js');
 
 const app = express();
 const PORT = 8080;
@@ -12,7 +13,7 @@ main()
 })
 .catch((err)=>{
     console.log(err);
-})
+});
 
 async function main() {
     await mongoose.connect(MONGO_URL);
