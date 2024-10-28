@@ -1,17 +1,25 @@
 <% layout("/layouts/boilerplate") %>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WanderLust</title>
-</head>
-<body>
-    <h2>All Listings</h2>
-    <ul>
-        <% for(listing of allListings){ %>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>WanderLust</title>
+    </head>
 
-            <li> <a href="/listings/<%= listing._id %>"><%= listing.title %></a> </li>
-            
-        <% } %>
-    </ul>
-</body>
+    <body>
+        <a href="/listings/<%= listing._id %>" class="listing-link">
+            <div class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-2">
+                <% for(listing of allListings){ %>
+                    <div class="card col" style="width: 20rem;">
+                        <img src="<%= listing.image %>" class="card-img-top" alt="listing-image">
+                        <div class="card-body">
+                            <p class="card-text">
+                                <b><%= listing.title %></b> <br>
+                                &#8377; <%= listing.price.toLocaleString("en-IN") %> / night
+                            </p>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+        </a>
+    </body>
