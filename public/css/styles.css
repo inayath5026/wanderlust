@@ -1,6 +1,13 @@
 
 body{
     font-family: "Plus Jakarta Sans", sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container{
+    flex: 1;
 }
 
 /* NAVBAR */
@@ -76,4 +83,113 @@ body{
 
 .listing-link{
     text-decoration: none;
+}
+
+/* NEW ROUTE FORM */
+.new-form div{
+    margin-bottom: 0.6rem;
+}
+.btn{
+    background-color: #fe424d !important; 
+    border: none;
+    margin-top: 1rem;
+}
+
+.new-form div label{
+    font-weight: 500;
+}
+
+/* SHOW PAGE */
+
+.show-img{
+    height: 24vh;
+    width: 26rem;
+}
+
+
+.container-div {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    background-color: #f0f8ff;
+}
+
+.listing-card {
+    width: 100%;
+    max-width: 800px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    overflow: hidden;
+    margin: 20px;
+}
+
+.card-image img {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    border-bottom: 1px solid #ddd;
+}
+
+.card-details {
+    padding: 20px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.listing-info {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.listing-info li {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+}
+
+.listing-title {
+    font-size: 1.2em;
+    color: #333;
+    font-weight: bold;
+}
+
+.listing-description,
+.listing-price,
+.listing-location,
+.listing-country {
+    color: #555;
+}
+
+.card-actions {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 20px;
+}
+
+.edit-link {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.edit-link:hover {
+    color: #0056b3;
+}
+
+.delete-button {
+    background-color: #ff4d4d;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    font-size: 1em;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.delete-button:hover {
+    background-color: #e60000;
 }
