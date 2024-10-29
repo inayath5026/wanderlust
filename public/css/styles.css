@@ -10,12 +10,81 @@ body{
     flex: 1;
 }
 
-/* NAVBAR */
-.navbar{
-    height: 5rem;
-    background-color: white;
+.bold{
+    font-weight: 500;
 }
 
+/* LISTINGS */
+.listings-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+@media (min-width: 768px) {
+    .listings-container {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 576px) {
+    .listings-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+.card {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 300px;
+    margin: auto;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card-img-top {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.card-body {
+    padding: 15px;
+}
+
+.card-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    color: #333;
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    white-space: nowrap; 
+}
+
+.card-text b {
+    font-size: 1.1rem;
+    color: #000;
+}
+
+@media (max-width: 768px) {
+    .card {
+        max-width: 100%;
+    }
+
+    .card-img-top {
+        height: 150px;
+    }
+}
+
+
+/* NAVBAR */
 .fa-compass{
     color: #fe424d;
     font-size: 2rem;
@@ -23,7 +92,35 @@ body{
 
 .nav-link{
     color: black !important;
+    margin-left: 2rem;
 }
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    height: 5rem;
+    background-color: white;
+}
+
+.navbar-nav {
+    display: flex; 
+    flex-direction: row; 
+    margin-left: auto;
+}
+
+.navbar-brand {
+    margin-right: auto; 
+}
+
+
+
+@media (max-width: 768px) {
+    .navbar-collapse {
+        background-color: white;
+    }
+}
+
 
 /* FOOTER */
 .f-info-links a{
