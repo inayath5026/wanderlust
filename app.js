@@ -21,18 +21,28 @@ app.use(express.static(path.join(__dirname, "public")));
 
 main()
     .then(() => {
-        console.log("Conneted to DB.");
+        console.log("Connected to DB.");
     })
     .catch((err) => {
-        console.log(err);
+        console.error("Database connection error:", err);
     });
 
 async function main() {
     await mongoose.connect(MONGO_URL);
 }
 
+const validateListing = (req, res, next) => {
+    const { error } = listingSchema.validate(req.body);
+    if (error) {
+        const msg = error.details.map(el => el.message).join(',');
+        throw new expressErrors(400, msg);
+    } else {
+        next();
+    }
+}
+
 // Listings Route
-app.get('/listings', wrapAsync( async (req, res) => {
+app.get('/listings', wrapAsync(async (req, res) => {
     const allListings = await Listing.find({});
     res.render("listings/index.ejs", { allListings });
 }));
@@ -43,50 +53,50 @@ app.get('/listings/new', (req, res) => {
 });
 
 // Show Route
-app.get('/listings/:id', wrapAsync( async (req, res) => {
+app.get('/listings/:id', wrapAsync(async (req, res) => {
     const { id } = req.params;
     const listing = await Listing.findById(id);
+    if (!listing) {
+        throw new expressErrors(404, "Listing not found!");
+    }
     res.render("listings/show.ejs", { listing });
 }));
 
 // Create Route
-app.post('/listings',wrapAsync( async (req, res, next) => {
-        const result = listingSchema.validate(req.body);
-
-        if(result.error){
-            throw new expressErrors(400, result.error);
-        }
-
-        const newListing = new Listing(req.body.listing);
-        await newListing.save();
-        res.redirect("/listings");
-    }
-));
+app.post('/listings', validateListing, wrapAsync(async (req, res) => {
+    const newListing = new Listing(req.body.listing);
+    await newListing.save();
+    res.redirect("/listings");
+}));
 
 // Edit Route
-app.get('/listings/:id/edit', wrapAsync( async (req, res) => {
+app.get('/listings/:id/edit', wrapAsync(async (req, res) => {
     const { id } = req.params;
     const listing = await Listing.findById(id);
+    if (!listing) {
+        throw new expressErrors(404, "Listing not found!");
+    }
     res.render("listings/edit.ejs", { listing });
 }));
 
 // Update Route
-app.put('/listings/:id', wrapAsync( async (req, res) => {
-
-    if(!req.body.listing){
-        throw new expressErrors(400, "Send Valid Data For Listing !");
-    }
-
+app.put('/listings/:id', validateListing, wrapAsync(async (req, res) => {
     const { id } = req.params;
-    await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+    const updatedListing = await Listing.findByIdAndUpdate(id, { ...req.body.listing }, { new: true });
+    if (!updatedListing) {
+        throw new expressErrors(404, "Listing not found for update!");
+    }
     res.redirect(`/listings/${id}`);
 }));
 
 // Delete Route
-app.delete('/listings/:id', wrapAsync( async (req, res) => {
+app.delete('/listings/:id', wrapAsync(async (req, res) => {
     const { id } = req.params;
     const deletedListing = await Listing.findByIdAndDelete(id);
-    console.log(deletedListing);
+    if (!deletedListing) {
+        throw new expressErrors(404, "Listing not found for deletion!");
+    }
+    console.log("Deleted Listing:", deletedListing);
     res.redirect("/listings");
 }));
 
@@ -94,15 +104,15 @@ app.get('/', (req, res) => {
     res.send("Root Route.");
 });
 
-app.all('*', (req, res, next)=>{
-    next(new expressErrors(404,"Page Not Found !"));
-})
+app.all('*', (req, res, next) => {
+    next(new expressErrors(404, "Page Not Found!"));
+});
 
-app.use((err,req,res,next)=>{
-    const {statusCode=500, message="Something Went Wrong !"} = err;
-    res.render("listings/error.ejs",{statusCode,message});
+app.use((err, req, res, next) => {
+    const { statusCode = 500, message = "Something Went Wrong!" } = err;
+    res.status(statusCode).render("listings/error.ejs", { statusCode, message });
 });
 
 app.listen(PORT, () => {
-    console.log(`App is Listening to PORT : ${PORT}`);
+    console.log(`App is listening on PORT: ${PORT}`);
 });
