@@ -6,6 +6,7 @@ const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
 const wrapAsync = require('./utils/wrapAsync.js');
 const expressErrors = require('./utils/expressErrors.js');
+const { listingSchema } = require('./schema.js');
 
 const app = express();
 const PORT = 8080;
@@ -50,9 +51,10 @@ app.get('/listings/:id', wrapAsync( async (req, res) => {
 
 // Create Route
 app.post('/listings',wrapAsync( async (req, res, next) => {
+        const result = listingSchema.validate(req.body);
 
-        if(!req.body.listing){
-            throw new expressErrors(400, "Send Valid Data For Listing !");
+        if(result.error){
+            throw new expressErrors(400, result.error);
         }
 
         const newListing = new Listing(req.body.listing);
