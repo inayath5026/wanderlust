@@ -291,3 +291,75 @@ body{
 .delete-button:hover {
     background-color: #e60000;
 }
+
+/* ERROR PAGE */
+.error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.error-info {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.error-info b {
+    display: block;
+    margin: 10px 0;
+    font-size: 1.2em;
+    color: #333;
+}
+
+.error-code{
+    color: #ba1414;
+}
+
+.error-img img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+@media (min-width: 600px) {
+    .error-info b {
+        font-size: 1.4em;
+    }
+
+    .error {
+        padding: 30px;
+    }
+}
+
+@media (min-width: 768px) {
+    .error {
+        flex-direction: row;
+        gap: 30px;
+        padding: 40px;
+    }
+
+    .error-info {
+        max-width: 400px;
+        text-align: left;
+    }
+
+    .error-info b {
+        font-size: 1.6em;
+    }
+}
+
+@media (min-width: 1024px) {
+    .error {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .error-info b {
+        font-size: 1.8em;
+    }
+}
