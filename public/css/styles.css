@@ -210,6 +210,8 @@ body{
     justify-content: center;
     padding: 20px;
     background-color: #f0f8ff;
+    width: 100;
+    flex-wrap: wrap;
 }
 
 .listing-card {
@@ -362,4 +364,61 @@ body{
     .error-info b {
         font-size: 1.8em;
     }
+}
+
+
+/* REVIEW FORM */
+
+.review-form {
+    width: 100%;
+    max-width: 500px;
+    margin: auto;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-div{
+    display: flex;
+    flex-direction: column;
+}
+
+.form-label {
+    margin-bottom: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+.input-range {
+    margin: 10px 0;
+}
+
+.textarea-comment {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    resize: vertical;
+}
+
+.btn-submit {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.btn-submit:hover {
+    background-color: #45a049;
 }

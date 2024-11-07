@@ -22,4 +22,22 @@
             </form>
         </div>
     </div>
+
+    <form action="/listings/<%= listing._id %>/reviews" method="POST" class="review-form needs-validation" novalidate>
+        <h4>Review</h4>
+        <div class="form-group">
+            <div class="form-div">
+                <label for="rating" class="form-label">Rating</label>
+                <input type="range" class="form-control input-range" required min="1" max="5" id="rating" name="review[rating]">
+            </div>
+            <div class="form-div">
+                <label for="comment" class="form-label">Comments</label>
+                <textarea name="review[comment]" class="form-control textarea-comment" id="comment" cols="30" rows="6" required></textarea>
+            </div>
+            <button type="submit" class="btn-submit">Submit</button>
+        </div>
+    </form>
+    
+
 </div>
+

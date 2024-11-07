@@ -4,6 +4,7 @@ const defaultLink = "https://plus.unsplash.com/premium_photo-1687960116228-13d38
 
 
 const listingSchema = new Schema({
+
     title : {
         type : String,
         required : true
@@ -16,7 +17,13 @@ const listingSchema = new Schema({
     },
     price : Number,
     location : String,
-    country : String
+    country : String,
+    reviews : [
+        {
+            type : Schema.Types.ObjectId,
+            ref: "Review"
+        },
+    ],
 
 });
 

@@ -6,7 +6,8 @@ const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
 const wrapAsync = require('./utils/wrapAsync.js');
 const expressErrors = require('./utils/expressErrors.js');
-const { listingSchema } = require('./schema.js');
+const { listingSchema, reviewSchema } = require('./schema.js');
+const Review = require('./models/review.js');
 
 const app = express();
 const PORT = 8080;
@@ -31,6 +32,7 @@ async function main() {
     await mongoose.connect(MONGO_URL);
 }
 
+//server side Listing validation
 const validateListing = (req, res, next) => {
     const { error } = listingSchema.validate(req.body);
     if (error) {
@@ -39,7 +41,18 @@ const validateListing = (req, res, next) => {
     } else {
         next();
     }
-}
+};
+
+//server side Review validation
+const validateReview = (req,res,next)=>{
+    const {error} = reviewSchema.validate(req.body);
+    if(error){
+        const msg = error.details.map(el => el.message).join(',');
+        throw new expressErrors(400, msg);
+    } else {
+        next();
+    }
+};
 
 // Listings Route
 app.get('/listings', wrapAsync(async (req, res) => {
@@ -98,6 +111,20 @@ app.delete('/listings/:id', wrapAsync(async (req, res) => {
     }
     console.log("Deleted Listing:", deletedListing);
     res.redirect("/listings");
+}));
+
+/* REVIEW MODEL */
+
+// Post review
+app.post('/listings/:id/reviews', validateReview, wrapAsync( async(req,res)=>{
+    const listing = await Listing.findById(req.params.id);
+    const newReview = await new Review(req.body.review);
+    
+    listing.reviews.push(newReview);
+    await newReview.save();
+    await listing.save();
+
+    res.redirect(`/listings/${listing._id}`);
 }));
 
 app.get('/', (req, res) => {
