@@ -68,7 +68,7 @@ app.get('/listings/new', (req, res) => {
 // Show Route
 app.get('/listings/:id', wrapAsync(async (req, res) => {
     const { id } = req.params;
-    const listing = await Listing.findById(id);
+    const listing = await Listing.findById(id).populate("reviews");
     if (!listing) {
         throw new expressErrors(404, "Listing not found!");
     }
@@ -109,7 +109,6 @@ app.delete('/listings/:id', wrapAsync(async (req, res) => {
     if (!deletedListing) {
         throw new expressErrors(404, "Listing not found for deletion!");
     }
-    console.log("Deleted Listing:", deletedListing);
     res.redirect("/listings");
 }));
 

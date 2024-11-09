@@ -1,4 +1,4 @@
-
+ 
 body{
     font-family: "Plus Jakarta Sans", sans-serif;
     display: flex;
@@ -210,10 +210,13 @@ body{
     justify-content: center;
     padding: 20px;
     background-color: #f0f8ff;
-    width: 100;
+    align-items: center;
+    width: 100%;
     flex-wrap: wrap;
 }
-
+.container-div div{
+    width: 100%;
+}
 .listing-card {
     width: 100%;
     max-width: 800px;
@@ -422,3 +425,54 @@ body{
 .btn-submit:hover {
     background-color: #45a049;
 }
+
+/* REVIEWS DIV */
+
+.reviews {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-around;
+    padding: 20px;
+    align-items: center;
+}
+
+.review-card {
+    width: 100%;
+    max-width: 350px;
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    transition: transform 0.2s ease;
+}
+
+.review-card:hover {
+    transform: translateY(-5px);
+}
+
+.review-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.review-comment {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    color: #333;
+    line-height: 1.4;
+}
+
+.review-rating {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: #ff385c;
+    font-weight: 600;
+}
+
+.review-card:hover {
+    border-color: #a0d2eb;
+} 
+
