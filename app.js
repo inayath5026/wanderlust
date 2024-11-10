@@ -1,15 +1,13 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
-const Listing = require('./models/listings.js');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
-const wrapAsync = require('./utils/wrapAsync.js');
 const expressErrors = require('./utils/expressErrors.js');
-const { listingSchema, reviewSchema } = require('./schema.js');
-const Review = require('./models/review.js');
 const listings = require('./routes/listings.js');
 const reviews = require('./routes/reviews.js');
+const session = require('express-session');
+const flash = require('connect-flash');
 
 const app = express();
 const PORT = 8080;
@@ -34,6 +32,25 @@ async function main() {
     await mongoose.connect(MONGO_URL);
 }
 
+const sessionOptions = {
+    secret : "mySuperSecretCode",
+    resave : false,
+    saveUninitialized : true,
+    cookie : {
+        expires : Date.now() + 7 * 24 * 60 * 60 * 1000,
+        maxAge : 7 * 24 * 60 * 60 * 1000,
+        httpOnly : true,
+    },
+};
+
+app.use(session(sessionOptions));
+app.use(flash());
+
+app.use((req, res, next)=>{
+    res.locals.success = req.flash("success");
+    res.locals.error = req.flash("error");
+    next();
+});
 
 app.use('/listings', listings);
 app.use('/listings/:id/reviews', reviews);
