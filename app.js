@@ -8,6 +8,9 @@ const listings = require('./routes/listings.js');
 const reviews = require('./routes/reviews.js');
 const session = require('express-session');
 const flash = require('connect-flash');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const User = require('./models/user.js');
 
 const app = express();
 const PORT = 8080;
@@ -46,10 +49,26 @@ const sessionOptions = {
 app.use(session(sessionOptions));
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.use((req, res, next)=>{
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
     next();
+});
+
+app.get('/demoUser', async(req,res)=>{
+    let fakeUser = User({
+        email : "abcd@gmail.com",
+        username : "ABCD@1234",
+    });
+
+    let registeredUser = await User.register(fakeUser, "password");
+    res.send(registeredUser);
 });
 
 app.use('/listings', listings);
