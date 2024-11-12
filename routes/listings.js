@@ -1,9 +1,10 @@
 const express = require('express');
-const router = express.Router({mergeParams:true});
+const router = express.Router({ mergeParams: true });
 const wrapAsync = require('../utils/wrapAsync.js');
 const expressErrors = require('../utils/expressErrors.js');
 const { listingSchema } = require('../schema.js');
 const Listing = require('../models/listings.js');
+const {isLoggedIn} = require('../middlewares.js');
 
 //server side Listing validation
 const validateListing = (req, res, next) => {
@@ -23,7 +24,7 @@ router.get('/', wrapAsync(async (req, res) => {
 }));
 
 // New Route
-router.get('/new', (req, res) => {
+router.get('/new', isLoggedIn, (req, res) => {
     res.render("listings/new.ejs");
 });
 
@@ -39,7 +40,7 @@ router.get('/:id', wrapAsync(async (req, res) => {
 }));
 
 // Create Route
-router.post('/', validateListing, wrapAsync(async (req, res) => {
+router.post('/', isLoggedIn, validateListing, wrapAsync(async (req, res) => {
     const newListing = new Listing(req.body.listing);
     await newListing.save();
     req.flash("success", "New Listing Created !");
@@ -47,7 +48,7 @@ router.post('/', validateListing, wrapAsync(async (req, res) => {
 }));
 
 // Edit Route
-router.get('/:id/edit', wrapAsync(async (req, res) => {
+router.get('/:id/edit', isLoggedIn, wrapAsync(async (req, res) => {
     const { id } = req.params;
     const listing = await Listing.findById(id);
     if (!listing) {
@@ -58,7 +59,7 @@ router.get('/:id/edit', wrapAsync(async (req, res) => {
 }));
 
 // Update Route
-router.put('/:id', validateListing, wrapAsync(async (req, res) => {
+router.put('/:id', isLoggedIn, validateListing, wrapAsync(async (req, res) => {
     const { id } = req.params;
     const updatedListing = await Listing.findByIdAndUpdate(id, { ...req.body.listing }, { new: true });
     if (!updatedListing) {
@@ -69,7 +70,7 @@ router.put('/:id', validateListing, wrapAsync(async (req, res) => {
 }));
 
 // Delete Route
-router.delete('/:id', wrapAsync(async (req, res) => {
+router.delete('/:id', isLoggedIn, wrapAsync(async (req, res) => {
     const { id } = req.params;
     const deletedListing = await Listing.findByIdAndDelete(id);
     if (!deletedListing) {
