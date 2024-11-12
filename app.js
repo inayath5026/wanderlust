@@ -4,8 +4,9 @@ const path = require('path');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
 const expressErrors = require('./utils/expressErrors.js');
-const listings = require('./routes/listings.js');
-const reviews = require('./routes/reviews.js');
+const listingRouter = require('./routes/listings.js');
+const reviewRouter = require('./routes/reviews.js');
+const userRouter = require('./routes/user.js');
 const session = require('express-session');
 const flash = require('connect-flash');
 const passport = require('passport');
@@ -71,8 +72,9 @@ app.get('/demoUser', async(req,res)=>{
     res.send(registeredUser);
 });
 
-app.use('/listings', listings);
-app.use('/listings/:id/reviews', reviews);
+app.use('/listings', listingRouter);
+app.use('/listings/:id/reviews', reviewRouter);
+app.use('/user', userRouter);
 
 app.get('/', (req, res) => {
     res.send("Root Route.");
