@@ -57,7 +57,9 @@
             </form>
         </div>
         
-        <p class="mt-4"><b>Reviews</b></p>
+        <% if(listing.reviews[0]){ %>
+            <p class="mt-4"><b>Reviews</b></p>
+        <% } %>
         <div class="reviews">
 
             <% for(review of listing.reviews){ %>
@@ -69,9 +71,11 @@
                             <%= review.rating %> ★
                         </p>
                     </div>
-                    <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST">
-                        <button class="delete-button">Delete</button>
-                    </form>
+                    <% if(currUser && currUser._id.equals(review.author._id)){ %>
+                        <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST">
+                           <button class="delete-button">Delete</button>
+                         </form>
+                    <% } %>
                 </div>
                 <% } %>
         </div>
