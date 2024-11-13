@@ -22,14 +22,19 @@
                     <li class="listing-country">
                         <%= listing.country %>
                     </li>
+                    <li class="listing-owner">
+                        Owned by <i><%= listing.owner.username %></i>
+                    </li>
                 </ul>
             </div>
-            <div class="card-actions">
-                <a href="/listings/<%= listing._id %>/edit" class="edit-link">Edit</a>
-                <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE">
-                    <button class="delete-button">DELETE</button>
-                </form>
-            </div>
+            <% if(currUser && currUser._id.equals(listing.owner._id)){  %>
+                <div class="card-actions">
+                    <a href="/listings/<%= listing._id %>/edit" class="edit-link">Edit</a>
+                    <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE">
+                        <button class="delete-button">DELETE</button>
+                    </form>
+                </div>
+            <% } %>
         </div>
 
         <div>
@@ -51,12 +56,14 @@
                 </div>
             </form>
         </div>
+        
         <p class="mt-4"><b>Reviews</b></p>
         <div class="reviews">
 
             <% for(review of listing.reviews){ %>
                 <div class="review-card">
                     <div class="review-content">
+                        <p class="review-author"><i>@<%= review.author.username %></i></p>
                         <p class="review-comment">"<%= review.comment %>"</p>
                         <p class="review-rating">
                             <%= review.rating %> ★
