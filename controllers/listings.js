@@ -47,6 +47,12 @@ module.exports.updateListing = async (req, res) => {
     if (!updatedListing) {
         throw new expressErrors(404, "Listing not found for update!");
     }
+    if(typeof req.file !== "undefined"){
+        const url = req.file.path;
+        const filename = req.file.filename;
+        updatedListing.image = {url, filename};
+        updatedListing.save();
+    }
     req.flash("success", "Listing Updated !");
     res.redirect(`/listings/${id}`);
 };
