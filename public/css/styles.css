@@ -96,9 +96,9 @@
      transition: 0.2s;
  }
 
- .nav-link:hover{
-    opacity: 1;
-    color: #fe424d !important;
+ .nav-link:hover {
+     opacity: 1;
+     color: #fe424d !important;
  }
 
  .navbar {
@@ -490,8 +490,8 @@
      border-color: #a0d2eb;
  }
 
- .dlt-btn{
-    float: right;
+ .dlt-btn {
+     float: right;
  }
 
  /* SIGN UP PAGE */
@@ -559,4 +559,74 @@
 
  .signup-btn:hover {
      background-color: #fe424d;
+ }
+
+ /* FILTERS */
+
+ #filters {
+     display: flex;
+     flex-wrap: wrap;
+     gap: 15px;
+     justify-content: center;
+     padding: 10px;
+     background-color: #ffffff;
+     border-radius: 8px;
+ }
+
+ .filter {
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     justify-content: center;
+     width: 6vw;
+     height: 6vw;
+     opacity: 0.6;
+     border-radius: 10px;
+     text-align: center;
+     cursor: pointer;
+     transition: transform 0.3s, box-shadow 0.3s;
+ }
+
+ .filter div {
+     font-size: 32px;
+     margin-bottom: 10px;
+ }
+
+ .filter p {
+     font-size: 14px;
+     font-weight: bold;
+     margin: 0;
+ }
+
+ .filter:hover {
+     transform: translateY(-5px);
+     /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
+     opacity: 0.9;
+ }
+
+ /* Media queries */
+ @media (max-width: 768px) {
+     #filters {
+         padding: 10px;
+         gap: 10px;
+     }
+
+     .filter {
+         width: 100px;
+         height: 100px;
+     }
+
+     .filter div {
+         font-size: 28px;
+     }
+
+     .filter p {
+         font-size: 12px;
+     }
+ }
+
+ @media (max-width: 480px) {
+     #filters {
+         display: none;
+     }
  }
